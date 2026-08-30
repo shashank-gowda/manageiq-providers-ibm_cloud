@@ -26,9 +26,8 @@ class ManageIQ::Providers::IbmCloud::PowerVirtualServers::CloudManager::EventCat
 
       from_time = Time.now.utc.to_i
 
-      sleep(poll_sleep)
-
       events.each { |event| yield event.to_hash }
+      sleep(poll_sleep)
       break if stop_polling
     rescue IbmCloudPower::ApiError => e
       raise unless e.code == 403 && retry_connection
